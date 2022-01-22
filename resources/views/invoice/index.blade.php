@@ -9,7 +9,7 @@
                 <th>ID</th>
                 <th>Customer</th>
                 <th>Date</th>
-                <th>Total</th>
+                <th colspan="2">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +26,11 @@
                     </td>
                     <td>
                         ${{$invoice->total}}
+                    </td>
+                    <td>
+                        <a href="/invoices/{{$invoice->id}}">
+                            Details
+                        </a>
                     </td>
                 </tr>
             @endforeach
