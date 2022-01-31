@@ -16,7 +16,7 @@
                         <a class="nav-link" href="{{ route('invoice.index') }}">Invoices</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('albums.index') }}">Albums</a>
+                        <a class="nav-link" href="{{ route('album.index') }}">Albums</a>
                     </li>
                 </ul>
             </div>

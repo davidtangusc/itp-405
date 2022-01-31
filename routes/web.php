@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');;
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');;
-Route::get('/albums', [AlbumController::class, 'index'])->name('albums.index');
+Route::get('/albums', [AlbumController::class, 'index'])->name('album.index');
 
 if (env('APP_ENV') !== 'local') {
     URL::forceScheme('https');
