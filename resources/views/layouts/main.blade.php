@@ -15,6 +15,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('invoice.index') }}">Invoices</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('album.index') }}">Albums</a>
+                    </li>
                 </ul>
             </div>
             <div class="col-9">
