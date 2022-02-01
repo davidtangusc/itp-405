@@ -49,7 +49,7 @@ class AlbumController extends Controller
             ->first();
 
         return redirect()
-            ->route('albums.index')
+            ->route('album.index')
             ->with('success', "Successfully created {$artist->name} - {$request->input('title')}");
     }
 }
