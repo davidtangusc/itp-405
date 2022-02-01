@@ -17,7 +17,7 @@
         <thead>
             <tr>
                 <th>Album</th>
-                <th>Artist</th>
+                <th colspan="2">Artist</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +28,11 @@
                     </td>
                     <td>
                         {{$album->artist}}
+                    </td>
+                    <td>
+                        <a href="{{ route('album.edit', [ 'id' => $album->id ]) }}">
+                            Edit
+                        </a>
                     </td>
                 </tr>
             @endforeach
