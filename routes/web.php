@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\AlbumController;
 use Illuminate\Support\Facades\URL;
 
 /*
@@ -22,6 +23,10 @@ Route::get('/', function () {
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
 
+Route::get('/albums', [AlbumController::class, 'index'])->name('album.index');
+Route::get('/albums/new', [AlbumController::class, 'create'])->name('album.create');
+Route::post('/albums', [AlbumController::class, 'store'])->name('album.store');
+
 if (env('APP_ENV') !== 'local') {
     URL::forceScheme('https');
-}
+} 
