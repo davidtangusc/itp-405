@@ -19,25 +19,14 @@ class InvoiceController extends Controller
 
     public function show($id)
     {
-        $invoice = DB::table('invoices')
-            ->where('id', '=', $id)
-            ->first();
-
-        $invoiceItems = DB::table('invoice_items')
-            ->where('invoice_id', '=', $id)
-            ->join('tracks', 'tracks.id', '=', 'invoice_items.track_id')
-            ->join('albums', 'tracks.album_id', '=', 'albums.id')
-            ->join('artists', 'albums.artist_id', '=', 'artists.id')
-            ->get([
-                'invoice_items.unit_price',
-                'tracks.name AS track',
-                'albums.title AS album',
-                'artists.name AS artist',
-            ]);
+        $invoice = Invoice::with([
+            'invoiceItems.track',
+            'invoiceItems.track.album',
+            'invoiceItems.track.album.artist',
+        ])->find($id);
 
         return view('invoice.show', [
             'invoice' => $invoice,
-            'invoiceItems' => $invoiceItems,
         ]);
     }
 }
