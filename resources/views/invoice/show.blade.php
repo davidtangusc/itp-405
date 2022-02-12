@@ -15,11 +15,11 @@
       <th>Price</th>
     </tr>
 
-    @foreach ($invoiceItems as $invoiceItem)
+    @foreach ($invoice->invoiceItems as $invoiceItem)
       <tr>
-        <td>{{$invoiceItem->track}}</td>
-        <td>{{$invoiceItem->album}}</td>
-        <td>{{$invoiceItem->artist}}</td>
+        <td>{{$invoiceItem->track->name}}</td>
+        <td>{{$invoiceItem->track->album->title}}</td>
+        <td>{{$invoiceItem->track->album->artist->name}}</td>
         <td>${{$invoiceItem->unit_price}}</td>
       </tr>
     @endforeach

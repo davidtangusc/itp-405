@@ -15,7 +15,7 @@
       <tr>
         <td>{{$invoice->id}}</td>
         <td>
-          {{$invoice->first_name}} {{$invoice->last_name}}
+          {{$invoice->customer->first_name}} {{$invoice->customer->last_name}}
         </td>
         <td>{{$invoice->invoice_date}}</td>
         <td>{{$invoice->total}}</td>

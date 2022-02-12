@@ -14,6 +14,7 @@ class AlbumController extends Controller
             ->orderBy('artist')
             ->orderBy('title')
             ->get([
+                'albums.id',
                 'albums.title',
                 'artists.name AS artist',
             ]);
@@ -50,5 +51,36 @@ class AlbumController extends Controller
             ->route('album.index')
             ->with('success', "Successfully created album {$request->input('title')}");
 
+    }
+
+    public function edit($id)
+    {
+        $album = DB::table('albums')->where('id', '=', $id)->first();
+
+        $artists = DB::table('artists')
+            ->orderBy('name')
+            ->get();
+
+        return view('album.edit', [
+            'album' => $album,
+            'artists' => $artists,
+        ]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'title' => 'required|max:30',
+            'artist' => 'required|exists:artists,id',
+        ]);
+
+        DB::table('albums')->where('id', '=', $id)->update([
+            'title' => $request->input('title'), // $_POST['title'] $_REQUEST['title']
+            'artist_id' => $request->input('artist'),
+        ]);
+
+        return redirect()
+            ->route('album.index')
+            ->with('success', "Successfully updated album {$request->input('title')}");
     }
 }
