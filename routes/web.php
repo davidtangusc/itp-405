@@ -31,6 +31,8 @@ Route::get('/register', [RegistrationController::class, 'index'])->name('registr
 Route::post('/register', [RegistrationController::class, 'register'])->name('registration.create');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');;
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');;
