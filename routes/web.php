@@ -5,6 +5,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\URL;
 use App\Models\Track;
 use App\Models\Artist;
@@ -29,6 +30,7 @@ Route::get('/', function () {
 Route::get('/register', [RegistrationController::class, 'index'])->name('registration.index');
 Route::post('/register', [RegistrationController::class, 'register'])->name('registration.create');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');;
 Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');;
