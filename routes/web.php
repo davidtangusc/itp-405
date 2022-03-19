@@ -18,12 +18,17 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function() {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
-    Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
+    Route::middleware(['prevent-blocked-users'])->group(function () {
+        Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoice.index');
+        Route::get('/invoices/{id}', [InvoiceController::class, 'show'])->name('invoice.show');
+
+        Route::view('/blocked', 'blocked')->name('blocked');
+    });
 });
+
 
 Route::get('/register', [RegisterController::class, 'index'])->name('registration.index');
 Route::post('/register', [RegisterController::class, 'register'])->name('registration.create');
