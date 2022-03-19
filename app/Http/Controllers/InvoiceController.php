@@ -12,6 +12,8 @@ class InvoiceController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', Invoice::class);
+        
         $invoices = Invoice::select('invoices.*')
             ->with(['customer'])
             ->join('customers', 'invoices.customer_id', '=', 'customers.id')
