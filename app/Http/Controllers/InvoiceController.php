@@ -31,23 +31,7 @@ class InvoiceController extends Controller
             'invoiceItems.track.album.artist',
         ])->find($id);
 
-        if (Gate::denies('view-invoice', $invoice)) {
-            abort(403);
-        }
-
-        // if (!Gate::allows('view-invoice', $invoice)) {
-        //     abort(403);
-        // }
-
-        // if (Auth::user()->cannot('view-invoice', $invoice)) {
-        //     abort(403);
-        // }
-
-        // if (!Auth::user()->can('view-invoice', $invoice)) {
-        //     abort(403);
-        // }
-
-        // $this->authorize('view-invoice', $invoice);
+        $this->authorize('view', $invoice);
 
         return view('invoice.show', [
             'invoice' => $invoice,
