@@ -15,7 +15,7 @@ class InvoiceController extends Controller
         $invoices = Invoice::select('invoices.*')
             ->with(['customer'])
             ->join('customers', 'invoices.customer_id', '=', 'customers.id')
-            ->where('customers.email', '=', Auth::user()->email)
+            // ->where('customers.email', '=', Auth::user()->email)
             ->get();
         
         return view('invoice.index', [
