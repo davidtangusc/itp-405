@@ -10,17 +10,6 @@ class InvoicePolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user)
-    {
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        // Don't write it like below. Write it like above.
-        // Otherwise, we will have broken the authorization for non-admins
-        // return $user->isAdmin();
-    }
-
     /**
      * Determine whether the user can view any models.
      *
