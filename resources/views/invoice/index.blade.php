@@ -20,9 +20,13 @@
         <td>{{$invoice->invoice_date}}</td>
         <td>{{$invoice->total}}</td>
         <td>
-          <a href="{{ route('invoice.show', [ 'id' => $invoice->id ]) }}">
-            Details
-          </a>
+          {{-- @if (Auth::user()->can('view-invoice', $invoice)) --}}
+          @can('view', $invoice)
+            <a href="{{ route('invoice.show', [ 'id' => $invoice->id ]) }}">
+              Details
+            </a>
+          @endcan
+          {{-- @endif --}}
         </td>
       </tr>
     @endforeach
