@@ -11,6 +11,7 @@ use App\Models\Track;
 use App\Models\Artist;
 use App\Models\Album;
 use App\Models\Genre;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,17 @@ Route::get('/albums/new', [AlbumController::class, 'create'])->name('album.creat
 Route::post('/albums', [AlbumController::class, 'store'])->name('album.store');
 Route::get('/albums/{id}/edit', [AlbumController::class, 'edit'])->name('album.edit');
 Route::post('/albums/{id}', [AlbumController::class, 'update'])->name('album.update');
+
+Route::get('/itunes', function (Request $request) {
+    // return Http::get('https://itunes.apple.com/search?term=jack+johnson')->json();
+
+    $term = $request->query('term');
+    $response = Http::get("https://itunes.apple.com/search?term=$term");
+
+    return view('api.itunes', [
+        'response' => $response->object(),
+    ]);
+});
 
 Route::get('/eloquent', function() {
     // QUERYING many records from a table
