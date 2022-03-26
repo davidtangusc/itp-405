@@ -27,6 +27,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/mail', function () {
+    Mail::raw('What is your favorite framework?', function ($message) {
+        $message->to('dtang@usc.edu')->subject('Hello David');
+    });
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
