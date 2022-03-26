@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Mail\NewAlbum;
+use App\Models\Album;
+use App\Models\Artist;
+use Mail;
 
 class AlbumController extends Controller
 {
@@ -40,18 +44,16 @@ class AlbumController extends Controller
             'artist' => 'required|exists:artists,id',
         ]);
 
-        DB::table('albums')->insert([
-            'title' => $request->input('title'),
-            'artist_id' => $request->input('artist'),
-        ]);
+        $album = new Album();
+        $album->title = $request->input('title');
+        $album->artist()->associate(Artist::find($request->input('artist')));
+        $album->save();
 
-        $artist = DB::table('artists')
-            ->where('id', '=', $request->input('artist'))
-            ->first();
+        Mail::to('dtang@usc.edu')->send(new NewAlbum($album));
 
         return redirect()
             ->route('album.index')
-            ->with('success', "Successfully created {$artist->name} - {$request->input('title')}");
+            ->with('success', "Successfully created {$album->artist->name} - {$album->title}");
     }
 
     public function edit($id)
