@@ -8,6 +8,7 @@ use App\Mail\NewAlbum;
 use App\Models\Album;
 use App\Models\Artist;
 use Mail;
+use App\Jobs\AnnounceNewAlbum;
 
 class AlbumController extends Controller
 {
@@ -49,7 +50,7 @@ class AlbumController extends Controller
         $album->artist()->associate(Artist::find($request->input('artist')));
         $album->save();
 
-        Mail::to('dtang@usc.edu')->queue(new NewAlbum($album));
+        AnnounceNewAlbum::dispatch($album);
 
         return redirect()
             ->route('album.index')
