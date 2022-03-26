@@ -49,7 +49,7 @@ class AlbumController extends Controller
         $album->artist()->associate(Artist::find($request->input('artist')));
         $album->save();
 
-        Mail::to('dtang@usc.edu')->send(new NewAlbum($album));
+        Mail::to('dtang@usc.edu')->queue(new NewAlbum($album));
 
         return redirect()
             ->route('album.index')
