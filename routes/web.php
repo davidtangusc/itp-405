@@ -59,13 +59,15 @@ Route::get('/albums/{id}/edit', [AlbumController::class, 'edit'])->name('album.e
 Route::post('/albums/{id}', [AlbumController::class, 'update'])->name('album.update');
 
 Route::get('/itunes', function (Request $request) {
-    // return Http::get('https://itunes.apple.com/search?term=jack+johnson')->json();
-
     $term = $request->query('term');
-    $response = Http::get("https://itunes.apple.com/search?term=$term");
+    $cacheKey = "itunes-api-$term";
+
+    $response = Cache::remember($cacheKey, 60, function () use ($term) {
+        return Http::get("https://itunes.apple.com/search?term=$term")->object();
+    });
 
     return view('api.itunes', [
-        'response' => $response->object(),
+        'response' => $response,
     ]);
 });
 
