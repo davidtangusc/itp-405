@@ -71,6 +71,16 @@ Route::get('/itunes', function (Request $request) {
     ]);
 });
 
+Route::get('/reddit/{subreddit}', function ($subreddit) {
+    $response = Cache::remember("reddit-$subreddit", 60, function () use ($subreddit) {
+        return Http::get("https://www.reddit.com/r/$subreddit.json")->object();
+    });
+
+    return view('api.reddit', [
+        'response' => $response,
+    ]);
+});
+
 Route::get('/eloquent', function() {
     // QUERYING many records from a table
     // return Artist::all();
