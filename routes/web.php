@@ -81,6 +81,23 @@ Route::get('/reddit/{subreddit}', function ($subreddit) {
     ]);
 });
 
+Route::get('/yelp', function () {
+    // We can set headers for our request using withHeaders
+    // https://laravel.com/docs/9.x/http-client#headers
+    return Http::withHeaders([
+        'Authorization' => "Bearer " . env('YELP_API_KEY')
+    ])
+        ->get("https://api.yelp.com/v3/businesses/search?term=vegan&location=Los Angeles")
+        ->json();
+
+    // OR you can use withToken to set the Authorization header
+    // https://laravel.com/docs/9.x/http-client#bearer-tokens
+
+    return Http::withToken(env('YELP_API_KEY'))
+        ->get("https://api.yelp.com/v3/businesses/search?term=vegan&location=Los Angeles")
+        ->json();
+});
+
 Route::get('/eloquent', function() {
     // QUERYING many records from a table
     // return Artist::all();
