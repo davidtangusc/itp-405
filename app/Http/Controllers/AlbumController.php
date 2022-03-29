@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Mail;
+use App\Mail\NewAlbum;
+use App\Models\Album;
+use App\Models\Artist;
+use App\Jobs\AnnounceNewAlbum;
 
 class AlbumController extends Controller
 {
@@ -42,10 +47,18 @@ class AlbumController extends Controller
             'artist' => 'required|exists:artists,id',
         ]);
 
-        DB::table('albums')->insert([
-            'title' => $request->input('title'), // $_POST['title'] $_REQUEST['title']
-            'artist_id' => $request->input('artist'),
-        ]);
+        // DB::table('albums')->insert([
+        //     'title' => $request->input('title'), // $_POST['title'] $_REQUEST['title']
+        //     'artist_id' => $request->input('artist'),
+        // ]);
+
+        $album = new Album();
+        $album->title = $request->input('title');
+        $album->artist()->associate(Artist::find($request->input('artist')));
+        $album->save();
+
+        // Mail::to('dtang@usc.edu')->queue(new NewAlbum($album));
+        AnnounceNewAlbum::dispatch($album);
 
         return redirect()
             ->route('album.index')
