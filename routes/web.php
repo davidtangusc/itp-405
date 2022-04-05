@@ -11,6 +11,7 @@ use App\Models\Artist;
 use App\Models\Track;
 use App\Models\Genre;
 use App\Models\Album;
+use Illuminate\Http\Request;
 
 
 Route::get('/', function () {
@@ -21,6 +22,34 @@ Route::get('/mail', function () {
     Mail::raw('What is your favorite framework?', function ($message) {
         $message->to('dtang@usc.edu')->subject('Hello David');
     });
+});
+
+Route::get('/itunes', function (Request $request) {
+    $term = $request->query('term');
+    $cacheKey = "itunes-api-$term";
+    $response = Cache::remember($cacheKey, 60, function () use ($term) {
+        return Http::get("https://itunes.apple.com/search?term=$term")->object();
+    });
+
+    return view('api.itunes', [
+        'response' => $response,
+    ]);
+});
+
+Route::get('/reddit/{subreddit}', function ($subreddit) {
+    $response = Cache::remember("reddit-$subreddit", 60, function () use ($subreddit) {
+        return Http::get("https://www.reddit.com/r/$subreddit.json")->object();
+    });
+
+    return view('api.reddit', [
+        'response' => $response,
+    ]);
+});
+
+Route::get('/yelp', function () {
+    return Http::withToken(env('YELP_API_KEY'))
+        ->get('https://api.yelp.com/v3/businesses/search?term=vegan&location=Los Angeles')
+        ->json();
 });
 
 Route::middleware(['auth'])->group(function() {
