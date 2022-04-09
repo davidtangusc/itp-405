@@ -49,9 +49,26 @@ class AlbumController extends Controller
      * @param  \App\Models\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function show(Album $album)
+    public function show(Album $album, Request $request)
     {
-        return $album;
+        $response = [
+            // https://laravel.com/docs/9.x/eloquent-serialization
+            'album' => $album->attributesToArray(),
+        ];
+
+        // Example URL: http://0.0.0.0/api/albums/7?include=tracks,artist
+        // https://jsonapi.org/format/#fetching-includes
+        if ($request->query('include')) {
+            $relationshipsToSideload = explode(',', $request->query('include'));
+
+            foreach ($relationshipsToSideload as $relationship) {
+                if ($album->$relationship()->exists()) {
+                    $response[$relationship] = $album->$relationship;
+                }
+            }
+        }
+
+        return $response;
     }
 
     /**
