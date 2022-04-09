@@ -16,7 +16,11 @@ class AlbumResource extends JsonResource
      */
     public function toArray($request)
     {
-        return $this->attributesToArray();
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'artist_id' => $this->artist_id,
+        ];
     }
 
     public function with($request)
