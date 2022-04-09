@@ -16,4 +16,9 @@ class Album extends Model
         // albums.artist_id is the foregin key column
         return $this->belongsTo(Artist::class);
     }
+
+    public function tracks()
+    {
+        return $this->hasMany(Track::class);
+    }
 }
