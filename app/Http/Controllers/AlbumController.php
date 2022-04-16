@@ -14,19 +14,7 @@ class AlbumController extends Controller
 {
     public function index()
     {
-        $albums = DB::table('albums')
-            ->join('artists', 'albums.artist_id', '=', 'artists.id')
-            ->orderBy('artist')
-            ->orderBy('title')
-            ->get([
-                'albums.id',
-                'albums.title',
-                'artists.name AS artist',
-            ]);
-
-        return view('album.index', [
-            'albums' => $albums,
-        ]);
+        return view('album.index');
     }
 
     public function create()
